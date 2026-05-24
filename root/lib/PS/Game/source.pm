@@ -132,22 +132,22 @@ sub event {
 	}
 
 	# do some extra processing ...
-=pod
-	if (defined $self->{last_min} and $self->{last_min} != $self->{min}) {
-		# every minute collect some player data
-		$self->{last_min} = $self->{min};
-		$self->{_plrtot} += $self->get_online_count;
-		$self->{_plrcnt}++;
-	}
-	if (defined $self->{last_hour} and ($self->{last_hour} != $self->{hour} or $self->{last_day} != $self->{day})) {
-		print "$self->{hour}: " . int($self->{_plrtot} / $self->{_plrcnt}) . "\n";
-		$self->get_map->hourly('online', int($self->{_plrtot} / $self->{_plrcnt}));
-		$self->{_plrcnt} = 0;
-		$self->{_plrtot} = 0;
-		$self->{last_hour} = $self->{hour};
-		$self->{last_day} = $self->{day};
-	}
-=cut
+#
+#	if (defined $self->{last_min} and $self->{last_min} != $self->{min}) {
+#		# every minute collect some player data
+#		$self->{last_min} = $self->{min};
+#		$self->{_plrtot} += $self->get_online_count;
+#		$self->{_plrcnt}++;
+#	}
+#	if (defined $self->{last_hour} and ($self->{last_hour} != $self->{hour} or $self->{last_day} != $self->{day})) {
+#		print "$self->{hour}: " . int($self->{_plrtot} / $self->{_plrcnt}) . "\n";
+#		$self->get_map->hourly('online', int($self->{_plrtot} / $self->{_plrcnt}));
+#		$self->{_plrcnt} = 0;
+#		$self->{_plrtot} = 0;
+#		$self->{last_hour} = $self->{hour};
+#		$self->{last_day} = $self->{day};
+#	}
+#
 }
 
 sub process_feed {
@@ -403,7 +403,7 @@ sub event_connected {
 	my ($self, $timestamp, $args) = @_;
 	my ($plrstr, $ipstr, $props) = @$args;
 	my $ip = lc((split(/:/,$ipstr,2))[0]);
-	$ip = '127.0..0.1' if $ip eq 'localhost' or $ip eq 'loopback' or $ip !~ /(?:\d{1,3}\.){3}\d{1,3}/;
+	$ip = '127.0.0.1' if $ip eq 'localhost' or $ip eq 'loopback' or $ip !~ /(?:\d{1,3}\.){3}\d{1,3}/;
 
 	# strip out the worldid/uid and do not use get_plr() since players will have a STEAM_ID_PENDING
 	# I have to re-encode the player string here before stripping out the uid/worlid otherwise UTF8
